@@ -1,8 +1,9 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-200 p-4 mt-8">
-      <div className="container mx-auto text-center">
-        <p>&copy; 2023 5PX Landing. All rights reserved.</p>
+    <footer className="bg-white text-blue-500 py-8">
+      <div className="px-5">
+        <p>&copy; 2023 5PX. All rights reserved.</p>
+        {/* Add more footer content as needed */}
       </div>
     </footer>
   );
