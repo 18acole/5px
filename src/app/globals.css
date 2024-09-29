@@ -25,3 +25,14 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Fix for mobile viewport height */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

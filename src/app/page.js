@@ -5,7 +5,9 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
-      <ChallengeSection />
+      <div style={{ height: '200vh' }}>
+        <ChallengeSection />
+      </div>
     </main>
   );
 }
