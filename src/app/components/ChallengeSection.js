@@ -8,23 +8,29 @@ export default function ChallengeSection() {
 
   useEffect(() => {
     const section = sectionRef.current;
-    const animationDistance = window.innerHeight; // Distance over which animation occurs
     let startScrollPosition = null;
-    
+    let animationDistance = window.innerHeight; // Initial setting
+
+    const updateAnimationDistance = () => {
+      animationDistance = window.innerHeight;
+    };
+
     const handleScroll = () => {
       const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
       
       // Check if the section is fully in view or if transition is already complete
-      if ((rect.top <= 0 && rect.bottom >= window.innerHeight) || transitionComplete) {
+      if ((rect.top <= 0 && rect.bottom >= viewportHeight) || transitionComplete) {
         if (startScrollPosition === null) {
-          startScrollPosition = window.scrollY;
+          startScrollPosition = window.pageYOffset;
+          updateAnimationDistance(); // Update animation distance when starting
         }
         
-        const scrolled = window.scrollY - startScrollPosition;
+        const scrolled = window.pageYOffset - startScrollPosition;
         const progress = Math.min(1, Math.max(0, scrolled / animationDistance));
         setScrollProgress(progress);
 
-        if (progress === 1 && !transitionComplete) {
+        if (progress >= 0.99 && !transitionComplete) {
           setTransitionComplete(true);
         }
       } else if (rect.top > 0) {
@@ -36,9 +42,13 @@ export default function ChallengeSection() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', updateAnimationDistance);
     handleScroll(); // Set initial state
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateAnimationDistance);
+    };
   }, [transitionComplete]);
 
   const colorValue = Math.round(255 * (1 - scrollProgress));
